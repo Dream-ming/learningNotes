@@ -1,14 +1,64 @@
-# MySQL笔记
+<a name="index">**Index**</a>
+<a href="#0">MySQL笔记</a>  
+&emsp;<a href="#1">基础内容</a>  
+&emsp;&emsp;<a href="#2">1、MySQL体系结构</a>  
+&emsp;&emsp;<a href="#3">2、数据类型：</a>  
+&emsp;<a href="#4">SQL语句</a>  
+&emsp;&emsp;<a href="#5">1、数据定义语言DDL，定义数据库对象（数据库、表、字段）</a>  
+&emsp;&emsp;<a href="#6">2、数据操作语言DML，对表中的数据进行增删改</a>  
+&emsp;&emsp;<a href="#7">3、数据查询语言DQL，查询表中的记录</a>  
+&emsp;&emsp;<a href="#8">4、数据控制语言DCL，用来创建数据库用户、控制数据库访问权限</a>  
+&emsp;<a href="#9">函数</a>  
+&emsp;&emsp;<a href="#10">1、字符串函数</a>  
+&emsp;&emsp;<a href="#11">2、数值函数</a>  
+&emsp;&emsp;<a href="#12">3、日期函数</a>  
+&emsp;&emsp;<a href="#13">4、流程控制函数</a>  
+&emsp;&emsp;<a href="#14">5、聚合函数</a>  
+&emsp;<a href="#15">约束</a>  
+&emsp;&emsp;<a href="#16">1、常见的约束</a>  
+<a href="#17">在插入数据时，不指定gender，则会默认为'男'</a>  
+<a href="#18">当某一天插入失败（例如name重复），id仍然会被占用，插入下一条时，会跳过一个id</a>  
+&emsp;&emsp;<a href="#19">2、外键</a>  
+<a href="#20">建表时添加外键</a>  
+<a href="#21">给表添加外键</a>  
+<a href="#22">删除外键</a>  
+&emsp;&emsp;<a href="#23">3、外键约束</a>  
+&emsp;<a href="#24">多表查询</a>  
+&emsp;&emsp;<a href="#25">1、内连接</a>  
+&emsp;&emsp;<a href="#26">2、外连接</a>  
+&emsp;&emsp;<a href="#27">3、自连接</a>  
+&emsp;&emsp;<a href="#28">4、联合查询 union</a>  
+&emsp;&emsp;<a href="#29">5、子查询</a>  
+&emsp;<a href="#30">事务</a>  
+&emsp;&emsp;<a href="#31">1、事务的四大特性</a>  
+&emsp;&emsp;<a href="#32">2、操作</a>  
+&emsp;&emsp;<a href="#33">3、并发事务问题</a>  
+&emsp;&emsp;<a href="#34">4、事务隔离级别</a>  
+&emsp;&emsp;<a href="#35">5、隔离级别操作</a>  
+&emsp;<a href="#36">存储引擎</a>  
+&emsp;&emsp;<a href="#37">1、操作</a>  
+&emsp;&emsp;<a href="#38"> 2、存储引擎特点</a>  
+&emsp;<a href="#39">索引</a>  
+&emsp;&emsp;<a href="#40">1、索引结构</a>  
+&emsp;&emsp;<a href="#41">2、索引分类</a>  
+&emsp;&emsp;<a href="#42">3、索引语法</a>  
+&emsp;&emsp;<a href="#43">4、查看 SQL 语句的效率</a>  
+&emsp;&emsp;<a href="#44">5、索引失效的情况</a>  
+&emsp;&emsp;<a href="#45">6、SQL 提示</a>  
+&emsp;&emsp;<a href="#46">7、前缀索引</a>  
+&emsp;<a href="#47">SQL 优化</a>  
+&emsp;&emsp;<a href="#48">1、插入优化</a>  
+# <a name="0">MySQL笔记</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
 
-## 基础内容
+## <a name="1">基础内容</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
 
-### 1、MySQL体系结构
+### <a name="2">1、MySQL体系结构</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
 * 连接层：处理数据库的连接、授权认证等
 * 服务层：提供SQL接口、缓存查询、SQL的分析与优化
 * 引擎层：负责数据的存储和提取，不同的引擎有不同的索引结构
 * 存储层：将数据存储在文件系统之上，完成与存储引擎的交互
 
-### 2、数据类型：
+### <a name="3">2、数据类型：</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
 * 数值类
     * 在关键字后面加 unsigned 使用无符号类型
     * tinyint、smallint、mediumint、int、bigint: 都是整数，分别占1、2、3、4、8个字节
@@ -30,9 +80,9 @@
     * datetime: YYYY-MM-DD HH:MM:SS
 
 
-## SQL语句
+## <a name="4">SQL语句</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
 
-### 1、数据定义语言DDL，定义数据库对象（数据库、表、字段）
+### <a name="5">1、数据定义语言DDL，定义数据库对象（数据库、表、字段）</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
 
 1、数据库操作：   
 * 查询当前存在的数据库
@@ -77,7 +127,7 @@
     * alter table 表名 drop 字段名;
 
 
-### 2、数据操作语言DML，对表中的数据进行增删改
+### <a name="6">2、数据操作语言DML，对表中的数据进行增删改</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
 
 1、添加数据(insert)    
 * 添加数据，只给几个字段赋值
@@ -98,7 +148,7 @@
 * 无法删除某一个字段的内容，可以用update修改为null
    * delete from 表名 [where 条件];
 
-### 3、数据查询语言DQL，查询表中的记录
+### <a name="7">3、数据查询语言DQL，查询表中的记录</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
 
 1、基本查询
 * 查询多个字段
@@ -170,7 +220,7 @@
    * 先执行的取的别名可以给后执行的用，后执行的取的别名先执行的不能用
    * select 中取的别名给 where 用会报错
 
-### 4、数据控制语言DCL，用来创建数据库用户、控制数据库访问权限
+### <a name="8">4、数据控制语言DCL，用来创建数据库用户、控制数据库访问权限</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
 
 1、查询用户
 * use mysql;   // 在 mysql 的系统表中查询
@@ -198,9 +248,9 @@
    * revoke 权限 on 数据库名.表名 from '用户名'@'主机名';
 
 
-## 函数
+## <a name="9">函数</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
 
-### 1、字符串函数
+### <a name="10">1、字符串函数</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
 
 * 拼接字符串
    * concat(s1, s2, ...)
@@ -219,7 +269,7 @@
    * 将用户的 uid 修改为五位数，不足的左边补零
       * update user set uid = lpad(uid, 5, '0');
    
-### 2、数值函数
+### <a name="11">2、数值函数</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
 
 * 向上取整
    * ceil(x)
@@ -236,7 +286,7 @@
       * select lpad(round(round() * 1000000, 0), 6, '0');
 
     
-### 3、日期函数
+### <a name="12">3、日期函数</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
 
 * 返回当前日期
    * curdate()
@@ -260,7 +310,7 @@
       * select uid, datediff(now(), entrydate) as 'entrydays' from user order by entrydays desc;
 
 
-### 4、流程控制函数
+### <a name="13">4、流程控制函数</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
 
 * 如果 val 为 true 返回 t，否则返回 f
    * if(val, t, f)
@@ -274,7 +324,7 @@
    * 查询用户的地址，如果是北京，显示'首都'，如果是上海，显示'魔都'，其他显示'其他
       * select name, (case addr when '北京' then '首都' when '上海' then '魔都' else '其他' end) from user;
 
-### 5、聚合函数
+### <a name="14">5、聚合函数</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
 
 * count - 统计数量
 * max - 最大值
@@ -283,9 +333,9 @@
 * sum - 求和
 
 
-## 约束
+## <a name="15">约束</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
 
-### 1、常见的约束
+### <a name="16">1、常见的约束</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
 
 * 主键       -   primary key
 * 自动增长   - auto_increment
@@ -303,27 +353,27 @@ create table user(
     age int check( age > 0 && age <= 120) comment '年龄',
     gender char(1) default '男' comment '性别'
 ) comment '用户表';
-# 在插入数据时，不指定gender，则会默认为'男'
+# <a name="17">在插入数据时，不指定gender，则会默认为'男'</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
 insert into user(name, age, gender) values ('tom', 12);
-# 当某一天插入失败（例如name重复），id仍然会被占用，插入下一条时，会跳过一个id
+# <a name="18">当某一天插入失败（例如name重复），id仍然会被占用，插入下一条时，会跳过一个id</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
 ```
 
-### 2、外键
+### <a name="19">2、外键</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
 
 添加删除外键
 ``` mysql
-# 建表时添加外键
+# <a name="20">建表时添加外键</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
 create table 表名(
     字段名 数据类型,
     [constraint] [外键名称] foreign key (外键字段名) references 主表 (主表列名)
 );
-# 给表添加外键
+# <a name="21">给表添加外键</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
 alter table 表名 add constraint 外键名称 foreign key (外键字段名) references 主表 (主表列名);
-# 删除外键
+# <a name="22">删除外键</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
 alter table 表名 drop foreign key 外键名称;
 ```
 
-### 3、外键约束
+### <a name="23">3、外键约束</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
 
 * no action - 当父表中有删除/更新时，先检查是否有外键，如果有则不允许操作
 * restrict - 同 no action
@@ -334,9 +384,9 @@ alter table 表名 drop foreign key 外键名称;
    * alter table 表名 add constraint 外键名称 foreign key (外键字段名) references 主表名(主表字段) on update cascade on delete set null;
 
 
-## 多表查询
+## <a name="24">多表查询</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
 
-### 1、内连接
+### <a name="25">1、内连接</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
 
 只返回满足条件的行，不满足条件的行不显示
 
@@ -348,7 +398,7 @@ alter table 表名 drop foreign key 外键名称;
    * 语法：select 字段1 字段2 from 表1 [inner] join 表2 on 条件;   // inner 可省略
    * 例：select emp.name dept.name from emp [inner] join dept on emp.dept_id = dept.id;
 
-### 2、外连接
+### <a name="26">2、外连接</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
 
 会返回左表或右表的所有行，外加交集
 
@@ -362,7 +412,7 @@ alter table 表名 drop foreign key 外键名称;
    * 语法：select 字段1 字段2 from 表1 right [outer] join 表2 on 条件;
    * 通常使用左连接
 
-### 3、自连接
+### <a name="27">3、自连接</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
 
 将同一张表连接两次，取出内容
 
@@ -375,7 +425,7 @@ alter table 表名 drop foreign key 外键名称;
    * 例：上述查询，要求显示无领导的员工的内容
       * select a.name, b.name from emp a left join emp b on a.managerid = b.id;
    
-### 4、联合查询 union
+### <a name="28">4、联合查询 union</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
 
 将多次查询的结果上下拼接，要求列相同
 
@@ -384,25 +434,25 @@ alter table 表名 drop foreign key 外键名称;
 * 例：查询用户为男，或者id小于100的用户的信息(若要去重，可以去掉关键字all，也可以直接一次查询条件解决)
    * select * from user where gender = '男' union all select * from user where id < 100;
 
-### 5、子查询
+### <a name="29">5、子查询</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
 
 * 标量子查询
 * 列子查询
 * 行子查询
 * 表子查询
 
-## 事务
+## <a name="30">事务</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
 
 事务是一组操作的集合，不可分割的工作单位，这些操作要么同时成功，要么同时失败
 
-### 1、事务的四大特性
+### <a name="31">1、事务的四大特性</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
 
 * 原子性：事务是不可分割的最小操作单元，要么全部成功，要么全部失败
 * 一致性：事务完成时，无论是否成功，必须使所有的数据都保持一致状态
 * 隔离性：数据库提供隔离机制，保证事务在不受外部并发操作影响的独立环境下运行
 * 持久性：事务一旦提交或回滚，对数据库中的数据的改变就是永久的，保留在磁盘中
 
-### 2、操作
+### <a name="32">2、操作</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
 
 * 查看事务提交方式
    * select @@autocommit;
@@ -416,7 +466,7 @@ alter table 表名 drop foreign key 外键名称;
 * 回滚事务
    * rollback;
 
-### 3、并发事务问题
+### <a name="33">3、并发事务问题</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
 
 * 脏读：一个事务读到另一个事务还没有提交的数据
    * A事务修改了数据，但未提交
@@ -432,14 +482,14 @@ alter table 表名 drop foreign key 外键名称;
    * A事务插入该记录，出现主键冲突
    * A事务再次查询该记录，但是已经解决了不可重复读问题，查询结果与上一次查询一致，仍然没有发现该记录
 
-### 4、事务隔离级别
+### <a name="34">4、事务隔离级别</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
 
 * read uncommitted - 读未提交 - 三个问题都会出现
 * read committed - 读已提交 - 解决脏读问题
 * repeatable read - 可重复读 - 解决脏读和不可重复读
 * serializable - 串行化 - 解决三个问题 - 通过阻塞并发实现，性能低
 
-### 5、隔离级别操作
+### <a name="35">5、隔离级别操作</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
 
 * 查看隔离级别
    * select @@transaction_isolation;
@@ -450,18 +500,18 @@ alter table 表名 drop foreign key 外键名称;
    * 四个隔离级别：read uncommitted, read committed, repeatable read, serializable
 
 
-## 存储引擎
+## <a name="36">存储引擎</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
 
 引擎层：负责数据的存储和提取，不同的引擎有不同的索引结构
 
-### 1、操作
+### <a name="37">1、操作</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
 
 * 查看当前数据库支持的存储引擎
    * show engines;
 * 建表时指定存储引擎
    * create table 表名 (字段) engine = innodb;
 
- ### 2、存储引擎特点
+ ### <a name="38">2、存储引擎特点</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
 
 * InnoDB
    * 兼顾高可靠性和高性能，在 MySQL 5.5 之后，作为默认的存储引擎
@@ -481,9 +531,9 @@ alter table 表名 drop foreign key 外键名称;
    * 每张表对应 .sdi 存储表结构信息
 
 
-## 索引
+## <a name="39">索引</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
 
-### 1、索引结构
+### <a name="40">1、索引结构</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
 
 * 二叉树
    * 左子树的每一个节点都比根小，右子树的每一个节点都比根大
@@ -505,7 +555,7 @@ alter table 表名 drop foreign key 外键名称;
    * 只能比较等于，不支持范围查询，无法利用索引排序。不出现冲突的情况下，效率很高
    * memory引擎支持
 
-### 2、索引分类
+### <a name="41">2、索引分类</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
 
 * 主键索引 (primary)
    * 针对表中主键创建的索引
@@ -530,7 +580,7 @@ alter table 表名 drop foreign key 外键名称;
 * 回表查询
    * 通过二级索引找到主键，再通过聚簇索引找行数据
 
-### 3、索引语法
+### <a name="42">3、索引语法</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
 
 * 创建索引
    * create [unique | fulltext] index index_name on table_name (字段1, 字段2, ...);
@@ -541,7 +591,7 @@ alter table 表名 drop foreign key 外键名称;
 * 删除索引
    * drop index index_name on 表名;
 
-### 4、查看 SQL 语句的效率
+### <a name="43">4、查看 SQL 语句的效率</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
 
 * 查看当前数据库每一种操作的频次
    * show global status like 'Com_______';
@@ -560,7 +610,7 @@ alter table 表名 drop foreign key 外键名称;
    * 在 SQL 前面加上 explain 关键字
    * 会显示该 SQL 的具体执行情况，如使用的表，一步一步的执行顺序，查询数据的条数等信息
 
-### 5、索引失效的情况
+### <a name="44">5、索引失效的情况</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
 
 * 最左前缀法则
    * 如果使用了联合索引，索引了多列，在查询的时候必须要从最左边的索引开始使用
@@ -581,7 +631,7 @@ alter table 表名 drop foreign key 外键名称;
 * 数据分布影响
    * 如果 MySQL 评估，使用索引比全表慢，则不使用索引
 
-### 6、SQL 提示
+### <a name="45">6、SQL 提示</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
 
 当某一列有单列索引和联合索引时，数据库会优先使用联合索引。可以通过 SQL 提示来指定使用的索引
 
@@ -592,7 +642,7 @@ alter table 表名 drop foreign key 外键名称;
 * 强制使用索引 (force)
    * select * from 表名 force index(索引名) where 条件;    
 
-### 7、前缀索引
+### <a name="46">7、前缀索引</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
 
 当字段类型为字符串时，索引可能会很大，影响效率。可能只对一部分前缀建立索引
 
@@ -600,12 +650,13 @@ alter table 表名 drop foreign key 外键名称;
    * create index idx_xxx on table_name(column(n));
    * column(n) 表示对字段的前 n 位建立索引
 
-## SQL 优化
+## <a name="47">SQL 优化</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
 
-### 1、插入优化
+### <a name="48">1、插入优化</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
 
 * load 指令批量插入大数据
   * mysql --local-infile -u root -p;       // 链接数据库的时候加上参数 --local-infile
   * set global local_infile = 1;             // 开启从本地加载文件导入数据的参数
   * load data local infile 'path' into table '表名' fields terminated by ',' lines terminated by '\n';
     * 要载入的文件，字段之间用 ',' 分隔，行之间用 '\n' 分隔
+    * 本地文件的格式需为：xxx1,yyy1,zzz1\n xxx2,yyy2,zzz2\n 
