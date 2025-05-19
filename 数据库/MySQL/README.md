@@ -48,6 +48,7 @@
 &emsp;&emsp;<a href="#46">7、前缀索引</a>  
 &emsp;<a href="#47">SQL 优化</a>  
 &emsp;&emsp;<a href="#48">1、插入优化</a>  
+
 # <a name="0">MySQL笔记</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
 
 ## <a name="1">基础内容</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
@@ -484,10 +485,26 @@ alter table 表名 drop foreign key 外键名称;
 
 ### <a name="34">4、事务隔离级别</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
 
-* read uncommitted - 读未提交 - 三个问题都会出现
-* read committed - 读已提交 - 解决脏读问题
-* repeatable read - 可重复读 - 解决脏读和不可重复读
-* serializable - 串行化 - 解决三个问题 - 通过阻塞并发实现，性能低
+* read uncommitted - 读未提交
+  * 不加锁读，直接读取内存中的最新版本数据（包括未提交的修改）
+  * 加锁写，写操作时加排他锁，直到事务提交或回滚
+  * 会出现脏读、不可重复读、幻读问题
+
+* read committed - 读已提交
+  * MVCC快照，每次 select 生成独立的 read view，读取已提交的最新版本
+  * 写操作加行锁，无间隙锁，允许其他事务插入数据
+  * 解决脏读问题，会出现不可重复读和幻读
+
+* repeatable read - 可重复读
+  * MVCC快照读
+  * 写操作加间隙锁和行锁，防止其他事务插入新数据
+  * 解决脏读和不可重复读，会出现幻读
+
+* serializable - 串行化
+  * 针对全表，读操作加共享锁，写操作加排他锁
+  * 禁止快照读
+  * 解决幻读问题，事务串行执行，无法并发，效率低
+
 
 ### <a name="35">5、隔离级别操作</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
 
